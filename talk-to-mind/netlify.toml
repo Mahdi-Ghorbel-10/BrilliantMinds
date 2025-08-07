@@ -2,96 +2,18 @@
   # Build command for Next.js
   command = "npm run build"
   
-  # Output directory for static files
+  # Let the Next.js plugin handle the publish directory
   publish = ".next"
-  
-  # Node.js version
-  environment = { NODE_VERSION = "18" }
 
 [build.environment]
   # Next.js build optimizations
   NEXT_TELEMETRY_DISABLED = "1"
-  NPM_FLAGS = "--production=false"
 
-# API Functions (for /api routes)
-[functions]
-  # Directory for serverless functions
-  directory = ".netlify/functions"
-  
-  # Node.js runtime
-  node_bundler = "esbuild"
-
-# Redirects and rewrites for Next.js routing
-[[redirects]]
-  # Handle Next.js dynamic routes
-  from = "/mind/:name"
-  to = "/mind/[name]"
-  status = 200
-
-[[redirects]]
-  # Handle API routes
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-[[redirects]]
-  # Handle Next.js internal routes
-  from = "/_next/*"
-  to = "/_next/:splat"
-  status = 200
-
-[[redirects]]
-  # Handle static assets
-  from = "/images/*"
-  to = "/images/:splat"
-  status = 200
-
-[[redirects]]
-  # Catch-all for client-side routing
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# Headers for security and performance
-[[headers]]
-  for = "/*"
-  [headers.values]
-    # Security headers
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    
-    # Performance headers
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-[[headers]]
-  for = "/api/*"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate"
-
-# Environment variables (for reference)
-# Add these in Netlify dashboard:
-# GEMINI_API_KEY = "your_gemini_api_key_here"
-
-# Form handling (if needed in future)
-[forms]
-  # Enable Netlify Forms
-  settings = true
-
-# Plugin configuration
+# Plugin configuration - This handles all the routing automatically
 [[plugins]]
   # Essential Next.js plugin for Netlify
   package = "@netlify/plugin-nextjs"
 
-# Dev server configuration
-[dev]
-  command = "npm run dev"
-  port = 3000
-  targetPort = 3000
-  autoLaunch = true 
+# Environment variables (for reference)
+# Add these in Netlify dashboard:
+# GEMINI_API_KEY = "your_gemini_api_key_here" 
